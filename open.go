@@ -2,16 +2,16 @@ package coreutils
 
 import (
 	"github.com/aos-dev/go-storage/v2"
-	"github.com/aos-dev/go-storage/v2/services/azblob"
-	"github.com/aos-dev/go-storage/v2/services/cos"
-	"github.com/aos-dev/go-storage/v2/services/dropbox"
-	"github.com/aos-dev/go-storage/v2/services/fs"
-	"github.com/aos-dev/go-storage/v2/services/gcs"
-	"github.com/aos-dev/go-storage/v2/services/kodo"
-	"github.com/aos-dev/go-storage/v2/services/oss"
-	"github.com/aos-dev/go-storage/v2/services/qingstor"
-	"github.com/aos-dev/go-storage/v2/services/s3"
-	"github.com/aos-dev/go-storage/v2/services/uss"
+	"github.com/aos-dev/go-service-azblob"
+	"github.com/aos-dev/go-service-cos"
+	"github.com/aos-dev/go-service-dropbox"
+	"github.com/aos-dev/go-service-fs"
+	"github.com/aos-dev/go-service-gcs"
+	"github.com/aos-dev/go-service-kodo"
+	"github.com/aos-dev/go-service-oss"
+	"github.com/aos-dev/go-service-qingstor"
+	"github.com/aos-dev/go-service-s3"
+	"github.com/aos-dev/go-service-uss"
 	"github.com/aos-dev/go-storage/v2/types"
 )
 
