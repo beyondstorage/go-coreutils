@@ -34,11 +34,11 @@ func NewAppendWriter(ctx context.Context, s types.Storager, path string, ps ...t
 	return aw, nil
 }
 
-// WriteWithContext will write bytes as append.
+// Write will write bytes as append.
 //
 // NOTES:
-//   - WriteWithContext is not concurrent safe.
-func (a AppendWriter) WriteWithContext(ctx context.Context, p []byte) (n int, err error) {
+//   - Write is not concurrent safe.
+func (a AppendWriter) Write(ctx context.Context, p []byte) (n int, err error) {
 	nn, err := a.a.WriteAppendWithContext(ctx, a.o, bytes.NewReader(p), int64(len(p)))
 	if err != nil {
 		return int(nn), fmt.Errorf("write_append: %w", err)
@@ -46,11 +46,11 @@ func (a AppendWriter) WriteWithContext(ctx context.Context, p []byte) (n int, er
 	return int(nn), nil
 }
 
-// ReadFromWithContext will write bytes from an io.Reader as append.
+// ReadFrom will write bytes from an io.Reader as append.
 //
 // NOTES:
-//   - ReadFromWithContext is not concurrent safe.
-func (a AppendWriter) ReadFromWithContext(ctx context.Context, r io.Reader, l int64) (n int64, err error) {
+//   - ReadFrom is not concurrent safe.
+func (a AppendWriter) ReadFrom(ctx context.Context, r io.Reader, l int64) (n int64, err error) {
 	n, err = a.a.WriteAppendWithContext(ctx, a.o, r, l)
 	if err != nil {
 		return n, fmt.Errorf("write_append: %w", err)
@@ -58,7 +58,7 @@ func (a AppendWriter) ReadFromWithContext(ctx context.Context, r io.Reader, l in
 	return n, nil
 }
 
-// CloseWithContext is a noop for AppendWriter.
-func (a AppendWriter) CloseWithContext(ctx context.Context) error {
+// Close is a noop for AppendWriter.
+func (a AppendWriter) Close(ctx context.Context) error {
 	return nil
 }

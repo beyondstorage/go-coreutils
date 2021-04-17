@@ -41,11 +41,11 @@ func NewMultipartWriter(ctx context.Context, s types.Storager, path string, ps .
 	return mw, nil
 }
 
-// WriteWithContext will write bytes as a part.
+// Write will write bytes as a part.
 //
 // NOTES:
-//   - WriteWithContext is not concurrent safe.
-func (m MultipartWriter) WriteWithContext(ctx context.Context, p []byte) (n int, err error) {
+//   - Write is not concurrent safe.
+func (m MultipartWriter) Write(ctx context.Context, p []byte) (n int, err error) {
 	length := int64(len(p))
 
 	nn, err := m.m.WriteMultipartWithContext(ctx, m.o, bytes.NewReader(p), length, m.idx)
@@ -62,11 +62,11 @@ func (m MultipartWriter) WriteWithContext(ctx context.Context, p []byte) (n int,
 	return int(nn), nil
 }
 
-// ReadFromWithContext will write bytes from an io.Reader as a part.
+// ReadFrom will write bytes from an io.Reader as a part.
 //
 // NOTES:
-//   - WriteWithContext is not concurrent safe.
-func (m MultipartWriter) ReadFromWithContext(ctx context.Context, r io.Reader, l int64) (n int64, err error) {
+//   - Write is not concurrent safe.
+func (m MultipartWriter) ReadFrom(ctx context.Context, r io.Reader, l int64) (n int64, err error) {
 	n, err = m.m.WriteMultipartWithContext(ctx, m.o, r, l, m.idx)
 	if err != nil {
 		return n, fmt.Errorf("write_multiaprt: %w", err)
@@ -81,8 +81,8 @@ func (m MultipartWriter) ReadFromWithContext(ctx context.Context, r io.Reader, l
 	return n, nil
 }
 
-// CloseWithContext will complete multipart.
-func (m MultipartWriter) CloseWithContext(ctx context.Context) error {
+// Close will complete multipart.
+func (m MultipartWriter) Close(ctx context.Context) error {
 	err := m.m.CompleteMultipartWithContext(ctx, m.o, m.parts)
 	if err != nil {
 		return fmt.Errorf("complete_multipart: %w", err)
