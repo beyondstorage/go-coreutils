@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/aos-dev/go-storage/v3/types"
+	"github.com/beyondstorage/go-storage/v4/types"
 )
 
 // Writer is a high level abstraction for go-storage's Multiparter, Appender, ...
@@ -121,7 +121,7 @@ func NewMultipartWriter(ctx context.Context, s types.Storager, path string, ps .
 func (m MultipartWriter) Write(ctx context.Context, p []byte) (n int, err error) {
 	length := int64(len(p))
 
-	nn, err := m.m.WriteMultipartWithContext(ctx, m.o, bytes.NewReader(p), length, m.idx)
+	nn, part, err := m.m.WriteMultipartWithContext(ctx, m.o, bytes.NewReader(p), length, m.idx)
 	if err != nil {
 		return int(nn), fmt.Errorf("write_multiaprt: %w", err)
 	}
@@ -129,7 +129,7 @@ func (m MultipartWriter) Write(ctx context.Context, p []byte) (n int, err error)
 	m.parts = append(m.parts, &types.Part{
 		Index: m.idx,
 		Size:  nn,
-		ETag:  "",
+		ETag:  part.ETag,
 	})
 	m.idx++
 	return int(nn), nil
@@ -138,9 +138,9 @@ func (m MultipartWriter) Write(ctx context.Context, p []byte) (n int, err error)
 // ReadFrom will write bytes from an io.Reader as a part.
 //
 // NOTES:
-//   - Write is not concurrent safe.
+//   - ReadFrom is not concurrent safe.
 func (m MultipartWriter) ReadFrom(ctx context.Context, r io.Reader, l int64) (n int64, err error) {
-	n, err = m.m.WriteMultipartWithContext(ctx, m.o, r, l, m.idx)
+	n, part, err := m.m.WriteMultipartWithContext(ctx, m.o, r, l, m.idx)
 	if err != nil {
 		return n, fmt.Errorf("write_multiaprt: %w", err)
 	}
@@ -148,7 +148,7 @@ func (m MultipartWriter) ReadFrom(ctx context.Context, r io.Reader, l int64) (n 
 	m.parts = append(m.parts, &types.Part{
 		Index: m.idx,
 		Size:  n,
-		ETag:  "",
+		ETag:  part.ETag,
 	})
 	m.idx++
 	return n, nil

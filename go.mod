@@ -1,5 +1,5 @@
-module github.com/aos-dev/go-coreutils
+module github.com/beyondstorage/go-coreutils
 
 go 1.15
 
-require github.com/aos-dev/go-storage/v3 v3.6.0
+require github.com/beyondstorage/go-storage/v4 v4.0.0
