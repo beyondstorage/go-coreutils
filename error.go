@@ -1,11 +1,11 @@
 package coreutils
 
 import (
-	"github.com/beyondstorage/go-storage/v4/services"
+	"errors"
 )
 
 var (
-	ErrMultipleWriteNotSupported = services.NewErrorCode("multiple write not supported")
-	ErrMultiparterNotImplemented = services.NewErrorCode("multiparter not implemented")
-	ErrAppenderNotImplemented    = services.NewErrorCode("appender not implemented")
+	ErrMultipleWriteNotSupported = errors.New("multiple write not supported")
+	ErrMultiparterNotImplemented = errors.New("multiparter not implemented")
+	ErrAppenderNotImplemented    = errors.New("appender not implemented")
 )
